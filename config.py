@@ -1,0 +1,4 @@
+RPC_URL = "URL TAIKO NODE"
+contract = "0xA51894664A773981C6C112C43ce576f315d5b1B6"
+cycles = 30
+eth_count = 0.00001
