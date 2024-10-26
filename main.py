@@ -34,7 +34,7 @@ if __name__ == '__main__':
 
 
 
-    logger.info('Работа успешно завершена')
+    logger.info('Work completed successfully')
     time.sleep(1)
     input('\nPress Enter To Exit..')
 
