@@ -1,6 +1,7 @@
-# ![image](https://github.com/user-attachments/assets/9da68eee-a2df-4ec1-a2e1-f3b687f2d49d) Taiko Machine
+# ![image](https://github.com/user-attachments/assets/4c8477ce-9fd8-46d0-810c-6ee39decab05) Taiko Machine
 
-![image](https://github.com/user-attachments/assets/49ccf6e5-82b1-4d00-9f8a-23e5d41e02b6)
+![image](https://github.com/user-attachments/assets/4bbadd49-0050-4a4a-9519-cc9bad4f14de)
+
 
 ## ✅Общая информация
 
