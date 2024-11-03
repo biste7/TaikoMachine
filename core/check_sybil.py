@@ -3,13 +3,11 @@ from eth_account import Account
 from fake_useragent import UserAgent
 from utils import logger
 
-
-
 def get_address(private_key):
     wallet_address = Account.from_key(private_key).address
     return wallet_address
 
-def get_points(private_key, proxy=None):
+def sybil_check(private_key, proxy=None):
 
     ip, port, login, password = proxy.split(":")
     proxy_url = f"http://{login}:{password}@{ip}:{port}"
@@ -21,7 +19,6 @@ def get_points(private_key, proxy=None):
         'user-agent': ua.random
     }
 
-
     proxies = {
         "http": proxy_url,
         "https": proxy_url
@@ -32,9 +29,8 @@ def get_points(private_key, proxy=None):
         response = requests.get(url, headers=headers, proxies=proxies)
         response.raise_for_status()
         data = response.json()
-        rank = data.get("rank", "N/A")
-        total_score = data.get("totalScore", "N/A")
-        logger.info(f"Score = {total_score} Rank = {rank} Wallet: {address}")
+        sybil = data.get("blacklisted", "N/A")
+        logger.info(f"Wallet: {address} Sybil: {sybil}")
     except requests.RequestException as e:
         logger.error(f"Error : {e}")
 
