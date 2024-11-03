@@ -116,7 +116,7 @@ def perform_wrap_unwrap_cycles(private_key, proxy, rpc_url=RPC_URL, start_cycle=
             check_hash(web3, wrap_tx_hash)
             time.sleep(5)
         except Exception as e:
-            logger.error(f"Error WRAP ETH in WETH: {str(e)}")
+            logger.error(f"Error WRAP ETH in WETH Wallet: {get_address(private_key)}: {str(e)}")
             perform_wrap_unwrap_cycles(private_key, proxy, rpc_url, start_cycle=i)
             return
 
@@ -126,6 +126,6 @@ def perform_wrap_unwrap_cycles(private_key, proxy, rpc_url=RPC_URL, start_cycle=
             check_hash(web3, unwrap_tx_hash)
             time.sleep(5)
         except Exception as e:
-            logger.error(f"Error UNWRAP WETH in ETH: {str(e)}")
+            logger.error(f"Error UNWRAP WETH in ETH Wallet: {get_address(private_key)}: {str(e)}")
             perform_wrap_unwrap_cycles(private_key, proxy, rpc_url, start_cycle=i)
             return
