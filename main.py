@@ -3,7 +3,7 @@ import time
 from config import RPC_URL
 from utils import logger
 from multiprocessing.dummy import Pool
-from core import perform_wrap_unwrap_cycles
+from core import perform_wrap_unwrap_cycles, do_unwrap
 from core import get_points, sybil_check
 from itertools import islice
 def read_file(file_path):
@@ -34,6 +34,7 @@ if __name__ == '__main__':
     user_action: int = int(input('\n1. WRAP UNWRAP transactions'
                                  '\n2. Get rank and score'
                                  '\n3. Check Sybil'
+                                 '\n4. UNWRAP balance full'
                                  '\nChoose an action: '))
     threads: int = int(input('Threads: '))
     print('')
@@ -48,6 +49,9 @@ if __name__ == '__main__':
         case 3:
             with Pool(processes=threads) as executor:
                 executor.starmap(sybil_check, args)
+        case 4:
+            with Pool(processes=threads) as executor:
+                executor.starmap(do_unwrap, [(pk, proxy, rpc_url) for pk, proxy in args])
 
 
 

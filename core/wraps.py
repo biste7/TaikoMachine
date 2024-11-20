@@ -54,6 +54,23 @@ def get_gas_price(web3):
     gas_price = web3.eth.gas_price
     return gas_price
 
+def balance_unwrap(web3, weth_contract, private_key):
+    try:
+        address = get_address(private_key)
+        balance = weth_contract.functions.balanceOf(address).call()
+        bal = web3.from_wei(balance, 'ether')
+        logger.info(f"Balance {get_address(private_key)} in wETH: {bal}")
+        tx = unwrap_weth(web3, weth_contract, bal, private_key)
+        check_hash(web3, tx)
+    except Exception as e:
+        logger.error(f"Error check balance {e}")
+        return
+
+
+
+
+
+
 
 def wrap_eth(web3, weth_contract, amount_in_eth, private_key):
     transaction = weth_contract.functions.deposit().build_transaction({
@@ -129,3 +146,8 @@ def perform_wrap_unwrap_cycles(private_key, proxy, rpc_url=RPC_URL, start_cycle=
             logger.error(f"Error UNWRAP WETH in ETH Wallet: {get_address(private_key)}: {str(e)}")
             perform_wrap_unwrap_cycles(private_key, proxy, rpc_url, start_cycle=i)
             return
+def do_unwrap(private_key, proxy, rpc_url=RPC_URL):
+
+    web3 = create_web3_with_proxy(proxy, rpc_url)
+    weth_contract = web3.eth.contract(address=contract, abi=weth_abi)
+    balance_unwrap(web3, weth_contract, private_key)
