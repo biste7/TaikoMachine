@@ -1,3 +1,4 @@
+import random
 import time
 import requests
 from eth_account import Account
@@ -6,7 +7,7 @@ from web3 import Web3, HTTPProvider
 
 from constants import weth_abi
 from utils import logger
-from config import RPC_URL, contract, cycles, eth_count
+from config import RPC_URL, contract, cycles, min_count, max_count
 
 
 def create_web3_with_proxy(proxy, rpc_url):
@@ -124,12 +125,14 @@ def perform_wrap_unwrap_cycles(private_key, proxy, rpc_url=RPC_URL, start_cycle=
     web3 = create_web3_with_proxy(proxy, rpc_url)
     weth_contract = web3.eth.contract(address=contract, abi=weth_abi)
 
+
     for i in range(start_cycle, cycles):
         logger.info(f"Cycle {i + 1} of {cycles}:")
+        random_number = round(random.uniform(min_count, max_count), 6)
 
         try:
-            logger.info(f"WRAP {eth_count} ETH in WETH...")
-            wrap_tx_hash = wrap_eth(web3, weth_contract, eth_count, private_key)
+            logger.info(f"WRAP {random_number} ETH in WETH...")
+            wrap_tx_hash = wrap_eth(web3, weth_contract, random_number, private_key)
             check_hash(web3, wrap_tx_hash)
             time.sleep(5)
         except Exception as e:
@@ -138,8 +141,8 @@ def perform_wrap_unwrap_cycles(private_key, proxy, rpc_url=RPC_URL, start_cycle=
             return
 
         try:
-            logger.info(f"UNWRAP {eth_count} WETH in ETH...")
-            unwrap_tx_hash = unwrap_weth(web3, weth_contract, eth_count, private_key)
+            logger.info(f"UNWRAP {random_number} WETH in ETH...")
+            unwrap_tx_hash = unwrap_weth(web3, weth_contract, random_number, private_key)
             check_hash(web3, unwrap_tx_hash)
             time.sleep(5)
         except Exception as e:
